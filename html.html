@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang = "en-US">
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+    <title>Sorting Visualizer</title>
+    <link rel = "stylesheet" href = "styles.css">
+</head>
+<body>
+    <div class = "container">
+        <div class = "header">
+            <h1 class = "title">Sorting Visualizer</h1>
+            <div class = "controls">
+                <select class = "algorithm-select" id = "algorithmSelect">
+                    <option value = "">Select Algorithm</option>
+                    <option value = "bubble">Bubble Sort</option>
+                    <option value = "selection">Selection Sort</option>
+                    <option value = "insertion">Insertion Sort</option>
+                    <option value = "merge">Merge Sort</option>
+                    <option value = "quick">Quick Sort</option>
+                    <option value = "heap">Heap Sort</option>
+                </select>
+                <div class = "action-buttons">
+                    <button class = "btn btn-primary" id = "startSort">Start Sorting</button>
+                    <button class = "btn btn-secondary" id = "generateArray">Generate New Array</button>
+                </div>
+            </div>
+            <div class = "controls-secondary">
+                <div class = "range-container">
+                    <span class = "range-label">Array Size:</span>
+                    <input type = "range" id = "arraySize" min = "10" max = "100" value = "50">
+                    <span id = "arraySizeValue">50</span>
+                </div>
+                <div class = "range-container">
+                    <span class = "range-label">Speed:</span>
+                    <input type = "range" id = "sortingSpeed" min = "1" max = "100" value = "50">
+                    <span id = "speedValue">50</span>
+                </div>
+            </div>
+        </div>
+        <div class = "visualization-container">
+            <div class = "array-container" id = "arrayContainer"></div>
+        </div>
+        <div class="stats">
+            <p>Comparisons: <span id = "comparisons">0</span></p>
+            <p>Swaps: <span id = "swaps">0</span></p>
+            <p>Time: <span id = "time">0.00</span> seconds</p>
+        </div>
+    </div>
+</body>
+</html>
