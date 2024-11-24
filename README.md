@@ -2,7 +2,7 @@
 Sorting Visualizer is a web application that visualizes various sorting algorithms. It helps users understand how different sorting algorithms work by providing an interactive and visual representation of the sorting process.
 
 ## Features
-- Visualizes common sorting algorithms such as Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, and more.
+- Visualizes most commonly used sorting algorithms such as Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, and more.
 - Interactive interface with controls to start, pause, and reset the visualization.
 - Adjustable speed settings to control the pace of the visualization.
 - Option to generate arrays of different sizes and with different value ranges.
