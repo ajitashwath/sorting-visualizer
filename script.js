@@ -35,7 +35,6 @@ function generateArray() {
         bar.style.width = `${Math.max(2, Math.floor(700 / size))}px`;
         arrayContainer.appendChild(bar);
     }
-    
     updateStats();
 }
 
