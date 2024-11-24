@@ -42,10 +42,28 @@
         <div class = "visualization-container">
             <div class = "array-container" id = "arrayContainer"></div>
         </div>
-        <div class="stats">
+        <div class = "stats">
             <p>Comparisons: <span id = "comparisons">0</span></p>
             <p>Swaps: <span id = "swaps">0</span></p>
             <p>Time: <span id = "time">0.00</span> seconds</p>
+        </div>
+
+        <div class = "info-panel">
+            <h3>Algorithm Details</h3>
+            <div id = "algorithmInfo"></div>
+
+            <div class = "chart-container">
+                <canvas id = "timeComplexityChart"></canvas>
+            </div>
+        </div>
+        
+        <div class = "metrics-panel">
+            <h3>Performance Metrics</h3>
+            <div id = "metrics">
+                <div>Best Case: <span id = "bestCase">-</span></div>
+                <div>Average Case: <span id = "avgCase">-</span></div>
+                <div>Worst Case: <span id = "worstCase">-</span></div>
+            </div>
         </div>
     </div>
     <script src = "script.js"></script>

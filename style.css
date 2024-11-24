@@ -157,6 +157,27 @@ input[type="range"] {
     gap: 10px;
 }
 
+.info-panel {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.chart-container {
+    height: 300px;
+    margin: 20px 0;
+}
+
+.metrics-panel {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
 @media (max-width: 768px) {
     .controls {
         flex-direction: column;

@@ -1,3 +1,6 @@
+import Chart from 'chart.js/auto';
+import { createTimeComplexityChart, algorithmInfo } from 'chartUtils.js'; 
+
 const algorithmSelect = document.getElementById('algorithmSelect');
 const startSortButton = document.getElementById('startSort');
 const generateArrayButton = document.getElementById('generateArray');
@@ -9,6 +12,7 @@ const arrayContainer = document.getElementById('arrayContainer');
 const comparisonsSpan = document.getElementById('comparisons');
 const swapsSpan = document.getElementById('swaps');
 const timeSpan = document.getElementById('time');
+const algorithmInfoDiv = document.getElementById('algorithmInfo');
 
 let array = [];
 let isSorting = false;
@@ -36,6 +40,8 @@ function generateArray() {
         arrayContainer.appendChild(bar);
     }
     updateStats();
+    updateAlgorithmInfo(); // New function call
+    createTimeComplexityChart(); // New function call
 }
 
 function updateStats() {
@@ -44,6 +50,21 @@ function updateStats() {
     if (startTime > 0) {
         const currentTime = (Date.now() - startTime) / 1000;
         timeSpan.textContent = currentTime.toFixed(2);
+    }
+}
+
+function updateAlgorithmInfo() {
+    const selectedAlgorithm = algorithmSelect.value;
+    if (algorithmInfo[selectedAlgorithm]) {
+        const info = algorithmInfo[selectedAlgorithm];
+        algorithmInfoDiv.innerHTML = `
+            <p><strong>Name:</strong> ${info.name}</p>
+            <p><strong>Time Complexity:</strong> ${info.timeComplexity}</p>
+            <p><strong>Space Complexity:</strong> ${info.spaceComplexity}</p>
+            <p><strong>Description:</strong> ${info.description}</p>
+        `;
+    } else {
+        algorithmInfoDiv.innerHTML = '';
     }
 }
 
