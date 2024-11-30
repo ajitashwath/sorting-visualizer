@@ -1,4 +1,10 @@
 # Sorting Visualizer
+
+[![GitHub stars](https://img.shields.io/github/stars/ajitashwathr10/sorting-visualizer?style=social)](https://github.com/ajitashwathr10/sorting-visualizer/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/ajitashwathr10/sorting-visualizer?style=social)](https://github.com/ajitashwathr10/sorting-visualizer/network)
+[![Issues](https://img.shields.io/github/issues/ajitashwathr10/sorting-visualizer)](https://github.com/ajitashwathr10/sorting-visualizer/issues)
+[![MIT License](https://img.shields.io/github/license/ajitashwathr10/sorting-visualizer)](LICENSE)
+
 Sorting Visualizer is a web application that visualizes various sorting algorithms. It helps users understand how different sorting algorithms work by providing an interactive and visual representation of the sorting process.
 
 ## Features
