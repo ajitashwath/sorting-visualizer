@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang = "en-US">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,20 +28,29 @@
                     <button id="generateArray" class="btn btn-secondary">Generate New Array</button>
                 </div>
             </div>
-
+            
+            <!--
             <div class="controls-secondary">
                 <div class="range-container">
                     <span class="range-label">Array Size:</span>
                     <input type="range" id="arraySize" min="10" max="100" value="50">
                     <span id="arraySizeValue">50</span>
                 </div>
-
+            -->
                 <div class="range-container">
                     <span class="range-label">Speed:</span>
                     <input type="range" id="sortingSpeed" min="0" max="100" value="50">
                     <span id="speedValue">50</span>
                 </div>
+
+                <!-- Updated -->
+                <div class = "controls-secondary">
+                    <div class = "range-container">
+                        <label for = "manualInput" class = "range-label">Manual Input:</label>
+                        <input type = "text" id = "manualInput" placeholder="e.g. 50, 30, 30, 80, 20">
+                </div> 
             </div>
+                <!-- Updated -->
         </div>
 
         <div class="visualization-container">

@@ -157,6 +157,35 @@ input[type="range"] {
     gap: 10px;
 }
 
+/*
+Updated
+*/
+.bar-container {
+    display: flex;
+}
+
+.bar-level {
+    font-size: 10px;
+    color: #5F6368;
+    margin-bottom: 2px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #1A73E8;
+    border-radius: 4px;
+    width: 300px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #1A73E8;
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+/* Done */
+
 @media (max-width: 768px) {
     .controls {
         flex-direction: column;

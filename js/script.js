@@ -17,6 +17,7 @@ let swaps = 0;
 let startTime = 0;
 let animationSpeed = 100 - sortingSpeedInput.value;
 
+/*
 function generateArray() {
     const size = parseInt(arraySizeInput.value);
     array = [];
@@ -35,6 +36,47 @@ function generateArray() {
         bar.style.width = `${Math.max(2, Math.floor(700 / size))}px`;
         arrayContainer.appendChild(bar);
     }
+    updateStats();
+}
+*/
+
+function generateArray() {
+    const input = manualInputField.value.trim();
+    const inputValues = input.split(',').map(val => {
+        const num = parseInt(val.trim(), 10);
+        return isNaN(num) ? null : num;
+    }).filter(val => val !== null);
+
+    if (inputValues.length === 0) {
+        alert('Please enter valid numbers separated by commas');
+        return;
+    }
+
+    array = inputValues;
+    comparisons = 0;
+    swaps = 0;
+    timeSpan.textContent = '0.00';
+    arrayContainer.innerHTML = '';
+
+    const maxValue = Math.max(...array);
+    
+    array.forEach(value => {
+        const bar = document.createElement('div');
+        bar.className = 'array-bar';
+        bar.style.height = `${value}px`;
+        bar.style.width = `${700 / array.length}px`;
+        const label = document.createElement('div');
+        label.textContent = value;
+        label.className = 'bar-label';
+        
+        const barWrapper = document.createElement('div');
+        barWrapper.className = 'bar-wrapper';
+        barWrapper.appendChild(label);
+        barWrapper.appendChild(bar);
+        
+        arrayContainer.appendChild(barWrapper);
+    });
+    
     updateStats();
 }
 
