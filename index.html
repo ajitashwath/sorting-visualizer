@@ -10,7 +10,6 @@
     <div class = "container">
         <div class = "header">
             <h1 class = "title">Sorting Visualizer</h1>
-            
             <div class = "controls">
                 <select id = "algorithmSelect" class = "algorithm-select">
                     <option value = "">Select Algorithm</option>
@@ -20,22 +19,22 @@
                     <option value = "merge">Merge Sort</option>
                     <option value = "quick">Quick Sort</option>
                     <option value = "heap">Heap Sort</option>
-                </select> 
-                
-                <div class = "action-buttons">
-                    <button id = "startSort" class = "btn btn-primary">Start Sorting</button>
-                </div>
-            </div>
+                </select>
 
                 <div class = "range-container">
-                    <label for = "sortingSpeed" class = "range-label">Speed:</label>
+                    <label for = "sortingSpeed">Speed:</label>
                     <input type = "range" id = "sortingSpeed" min = "1" max = "100" value = "50">
                     <span id = "speedValue">50</span>
                 </div>
+            </div>
 
-                <div class = "range-container">
-                    <input type = "text" id = "manualInputField" placeholder ="Enter comma-separated numbers">
-                </div>
+            <div class = "controls">
+                <input 
+                    type = "text" 
+                    id = "manualInput" 
+                    placeholder = "Enter comma-separated numbers (optional)"
+                >
+                <button id = "startSort" class = "btn btn-primary">Start Sorting</button>
             </div>
         </div>
 
