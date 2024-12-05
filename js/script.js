@@ -9,6 +9,7 @@ const arrayContainer = document.getElementById('arrayContainer');
 const comparisonsSpan = document.getElementById('comparisons');
 const swapsSpan = document.getElementById('swaps');
 const timeSpan = document.getElementById('time');
+const manualInputField = document.getElementById('manualInput');
 
 let array = [];
 let isSorting = false;
@@ -42,39 +43,40 @@ function generateArray() {
 
 function generateArray() {
     const input = manualInputField.value.trim();
-    const inputValues = input.split(',').map(val => {
-        const num = parseInt(val.trim(), 10);
-        return isNaN(num) ? null : num;
-    }).filter(val => val !== null);
+    const inputValues = input ? 
+        input.split(',').map(val => {
+            const num = parseInt(val.trim(), 10);
+            return isNaN(num) ? null : num;
+        }).filter(val => val !== null) : 
+        Array.from({length: 50}, () => Math.floor(Math.random() * (300 - 10) + 10));
 
     if (inputValues.length === 0) {
-        alert('Please enter valid numbers separated by commas');
+        alert('Please enter valid numbers');
         return;
     }
-
     array = inputValues;
     comparisons = 0;
     swaps = 0;
     timeSpan.textContent = '0.00';
     arrayContainer.innerHTML = '';
 
-    const maxValue = Math.max(...array);
-    
     array.forEach(value => {
         const bar = document.createElement('div');
-        bar.className = 'array-bar';
-        bar.style.height = `${value}px`;
-        bar.style.width = `${700 / array.length}px`;
-        const label = document.createElement('div');
-        label.textContent = value;
-        label.className = 'bar-label';
+        bar.className = 'bar-wrapper';
         
-        const barWrapper = document.createElement('div');
-        barWrapper.className = 'bar-wrapper';
-        barWrapper.appendChild(label);
-        barWrapper.appendChild(bar);
+        const barHeight = document.createElement('div');
+        barHeight.className = 'array-bar';
+        barHeight.style.height = `${value}px`;
+        barHeight.style.width = `${700 / array.length}px`;
         
-        arrayContainer.appendChild(barWrapper);
+        const barLabel = document.createElement('div');
+        barLabel.className = 'bar-label';
+        barLabel.textContent = value;
+        
+        bar.appendChild(barLabel);
+        bar.appendChild(barHeight);
+        
+        arrayContainer.appendChild(bar);
     });
     
     updateStats();
@@ -91,23 +93,36 @@ function updateStats() {
 
 async function markComparing(i, j) {
     const bars = arrayContainer.children;
-    bars[i].classList.add('comparing');
-    if (j !== undefined) bars[j].classList.add('comparing');
+    const barElements = Array.from(bars).map(bar => bar.querySelector('.array-bar'));
+    
+    barElements[i].classList.add('comparing');
+    if (j !== undefined) barElements[j].classList.add('comparing');
+    
     comparisons++;
     updateStats();
     await sleep(animationSpeed);
-    bars[i].classList.remove('comparing');
-    if (j !== undefined) bars[j].classList.remove('comparing');
+    
+    barElements[i].classList.remove('comparing');
+    if (j !== undefined) barElements[j].classList.remove('comparing');
 }
 
 async function swap(i, j) {
     const bars = arrayContainer.children;
-    bars[i].classList.add('swapping');
-    bars[j].classList.add('swapping');
+    const barElements = Array.from(bars).map(bar => bar.querySelector('.array-bar'));
+    const barLabels = Array.from(bars).map(bar => bar.querySelector('.bar-label'));
     
-    const tempHeight = bars[i].style.height;
-    bars[i].style.height = bars[j].style.height;
-    bars[j].style.height = tempHeight;
+    barElements[i].classList.add('swapping');
+    barElements[j].classList.add('swapping');
+    
+    const tempHeight = barElements[i].style.height;
+    const tempLabel = barLabels[i].textContent;
+    
+    barElements[i].style.height = barElements[j].style.height;
+    barLabels[i].textContent = barLabels[j].textContent;
+    
+    barElements[j].style.height = tempHeight;
+    barLabels[j].textContent = tempLabel;
+    
     const temp = array[i];
     array[i] = array[j];
     array[j] = temp;
@@ -115,13 +130,15 @@ async function swap(i, j) {
     swaps++;
     updateStats();
     await sleep(animationSpeed);
-    bars[i].classList.remove('swapping');
-    bars[j].classList.remove('swapping');
+    
+    barElements[i].classList.remove('swapping');
+    barElements[j].classList.remove('swapping');
 }
 
 async function markSorted(index) {
     const bars = arrayContainer.children;
-    bars[index].classList.add('sorted');
+    const barElements = Array.from(bars).map(bar => bar.querySelector('.array-bar'));
+    barElements[index].classList.add('sorted');
 }
 
 function sleep(ms) {
@@ -316,12 +333,7 @@ async function heapSort() {
     await markSorted(0);
 }
 
-generateArrayButton.addEventListener('click', generateArray);
-
-arraySizeInput.addEventListener('input', () => {
-    arraySizeValue.textContent = arraySizeInput.value;
-    generateArray();
-});
+manualInputField.addEventListener('input', generateArray);
 
 sortingSpeedInput.addEventListener('input', () => {
     speedValue.textContent = sortingSpeedInput.value;
@@ -333,37 +345,22 @@ startSortButton.addEventListener('click', async () => {
     
     isSorting = true;
     startSortButton.disabled = true;
-    generateArrayButton.disabled = true;
-    arraySizeInput.disabled = true;
     startTime = Date.now();
     
     try {
         switch (algorithmSelect.value) {
-            case 'bubble':
-                await bubbleSort();
-                break;
-            case 'selection':
-                await selectionSort();
-                break;
-            case 'insertion':
-                await insertionSort();
-                break;
-            case 'merge':
-                await mergeSort();
-                break;
-            case 'quick':
-                await quickSort();
-                break;
-            case 'heap':
-                await heapSort();
-                break;
+            case 'bubble': await bubbleSort(); break;
+            case 'selection': await selectionSort(); break;
+            case 'insertion': await insertionSort(); break;
+            case 'merge': await mergeSort(); break;
+            case 'quick': await quickSort(); break;
+            case 'heap': await heapSort(); break;
         }
     } finally {
         isSorting = false;
         startSortButton.disabled = false;
-        generateArrayButton.disabled = false;
-        arraySizeInput.disabled = false;
     }
 });
 
+// Initial array generation
 generateArray();
