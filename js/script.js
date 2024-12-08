@@ -54,6 +54,7 @@ function generateArray() {
         alert('Please enter valid numbers');
         return;
     }
+    const size = 50;
     array = inputValues;
     comparisons = 0;
     swaps = 0;
