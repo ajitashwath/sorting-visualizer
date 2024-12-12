@@ -1,10 +1,5 @@
 const algorithmSelect = document.getElementById('algorithmSelect');
 const startSortButton = document.getElementById('startSort');
-const generateArrayButton = document.getElementById('generateArray');
-const arraySizeInput = document.getElementById('arraySize');
-const arraySizeValue = document.getElementById('arraySizeValue');
-const sortingSpeedInput = document.getElementById('sortingSpeed');
-const speedValue = document.getElementById('speedValue');
 const arrayContainer = document.getElementById('arrayContainer');
 const comparisonsSpan = document.getElementById('comparisons');
 const swapsSpan = document.getElementById('swaps');
@@ -16,30 +11,7 @@ let isSorting = false;
 let comparisons = 0;
 let swaps = 0;
 let startTime = 0;
-let animationSpeed = 100 - sortingSpeedInput.value;
-
-/*
-function generateArray() {
-    const size = parseInt(arraySizeInput.value);
-    array = [];
-    comparisons = 0;
-    swaps = 0;
-    timeSpan.textContent = '0.00';
-    arrayContainer.innerHTML = '';
-
-    for (let i = 0; i < size; i++) {
-        const value = Math.floor(Math.random() * (300 - 10) + 10);
-        array.push(value);
-        
-        const bar = document.createElement('div');
-        bar.className = 'array-bar';
-        bar.style.height = `${value}px`;
-        bar.style.width = `${Math.max(2, Math.floor(700 / size))}px`;
-        arrayContainer.appendChild(bar);
-    }
-    updateStats();
-}
-*/
+let animationSpeed = 50;
 
 function generateArray() {
     const input = manualInputField.value.trim();
@@ -48,27 +20,29 @@ function generateArray() {
             const num = parseInt(val.trim(), 10);
             return isNaN(num) ? null : num;
         }).filter(val => val !== null) : 
-        Array.from({length: 50}, () => Math.floor(Math.random() * (300 - 10) + 10));
+        Array.from({length: 40}, () => Math.floor(Math.random() * (200 - 10) + 10));
 
     if (inputValues.length === 0) {
         alert('Please enter valid numbers');
         return;
     }
-    const size = 50;
     array = inputValues;
     comparisons = 0;
     swaps = 0;
     timeSpan.textContent = '0.00';
     arrayContainer.innerHTML = '';
+    
+    const containWidth = arrayContainer.offsetWidth;
+    const barWidth = Math.max(2, Math.floor(containWidth / array.length));  
 
     array.forEach(value => {
         const bar = document.createElement('div');
         bar.className = 'bar-wrapper';
-        
+
         const barHeight = document.createElement('div');
         barHeight.className = 'array-bar';
         barHeight.style.height = `${value}px`;
-        barHeight.style.width = `${700 / array.length}px`;
+        barHeight.style.width = `${barWidth}px`;
         
         const barLabel = document.createElement('div');
         barLabel.className = 'bar-label';
@@ -212,12 +186,12 @@ async function mergeSort() {
             if (L[i] <= R[j]) {
                 array[k] = L[i];
                 const bars = arrayContainer.children;
-                bars[k].style.height = `${L[i]}px`;
+                bars[k].querySelector('.array-bar').style.height = `${L[i]}px`;
                 i++;
             } else {
                 array[k] = R[j];
                 const bars = arrayContainer.children;
-                bars[k].style.height = `${R[j]}px`;
+                bars[k].querySelector('.array-bar').style.height = `${R[j]}px`;
                 j++;
             }
             swaps++;
@@ -229,7 +203,7 @@ async function mergeSort() {
         while (i < n1) {
             array[k] = L[i];
             const bars = arrayContainer.children;
-            bars[k].style.height = `${L[i]}px`;
+            bars[k].querySelector('.array-bar').style.height = `${L[i]}px`;
             i++;
             k++;
             swaps++;
@@ -240,7 +214,7 @@ async function mergeSort() {
         while (j < n2) {
             array[k] = R[j];
             const bars = arrayContainer.children;
-            bars[k].style.height = `${R[j]}px`;
+            bars[k].querySelector('.array-bar').style.height = `${R[j]}px`;
             j++;
             k++;
             swaps++;
@@ -336,11 +310,6 @@ async function heapSort() {
 
 manualInputField.addEventListener('input', generateArray);
 
-sortingSpeedInput.addEventListener('input', () => {
-    speedValue.textContent = sortingSpeedInput.value;
-    animationSpeed = 100 - sortingSpeedInput.value;
-});
-
 startSortButton.addEventListener('click', async () => {
     if (isSorting || !algorithmSelect.value) return;
     
@@ -363,5 +332,4 @@ startSortButton.addEventListener('click', async () => {
     }
 });
 
-// Initial array generation
 generateArray();
