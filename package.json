@@ -1,0 +1,17 @@
+{
+    "name": "sorting-visualizer",
+    "version": "1.0.0",
+    "description": "sorting visualizer",
+    "main": "index.html",
+    "scripts": {
+      "start": "serve .",
+      "build": "echo 'No build step required for this project.'"
+    },
+    "keywords": ["sorting", "visualizer", "web"],
+    "author": "Your Name",
+    "license": "MIT",
+    "devDependencies": {
+      "serve": "^14.2.0"
+    }
+}
+  
