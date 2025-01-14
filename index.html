@@ -1,39 +1,81 @@
 <!DOCTYPE html>
 <html lang="en-US">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorting Visualizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="public/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="container">
-        <h1>Sorting Visualizer</h1>
-        <div class="controls">
-            <input type="text" id="arrayInput" placeholder="Enter numbers (e.g., 5,2,8,12,1)">
-            <button id="randomArray">Random</button>
-            <select id="algorithm"></select>
-            <input type="range" id="speed" min="1" max="100" value="50">
-            <button id="sort">Sort</button>
-            <button id="reset">Reset</button>
-        </div>
-        <div id="barContainer" class="bar-container"></div>
-        <div class="info">
-            <div class="stats">
-                <p>Comparisons: <span id="comparisons">0</span></p>
-                <p>Swaps: <span id="swaps">0</span></p>
-                <p>Time: <span id="time">0.00</span> seconds</p>
+    <div class="app-container">
+        <button id="sidebarToggle" class="sidebar-toggle" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Sorting Algorithms</h2>
             </div>
-            <div id="algorithmInfo"></div>
-            <div id="complexityInfo"></div>
-            <div id="practiceProblems"></div>
-        </div>
+            <div id="algorithmList" class="algorithm-list"></div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h1>Sorting Visualizer</h1>
+                <div class="controls">
+                    <input type="text" id="arrayInput" placeholder="Enter numbers (e.g., 5,2,8,12,1)" aria-label="Input array">
+                    <button id="randomArray">Random</button>
+                    <div class="speed-control">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <input type="range" id="speed" min="1" max="100" value="50" aria-label="Speed control">
+                    </div>
+                    <button id="sort">Sort</button>
+                    <button id="pause">Pause</button>
+                    <button id="reset">Reset</button>
+                </div>
+            </header>
+
+            <div id="barContainer" class="bar-container"></div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Comparisons: <span id="comparisons">0</span></span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-random"></i>
+                    <span>Swaps: <span id="swaps">0</span></span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Time: <span id="time">0.00</span> seconds</span>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <section id="algorithmInfo" class="info-section"></section>
+                <section id="complexityInfo" class="info-section"></section>
+            </div>
+            <div class="info-grid">
+                <section id="implementationInfo" class="info-section">
+                    <div class="implementation-header">
+                        <h3>Implementation</h3>
+                        <select id="languageSelect" aria-label="Select programming language">
+                            <option value="python">Python</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="java">Java</option>
+                        </select>
+                    </div>
+                    <pre><code id="implementationCode"></code></pre>
+                </section>
+                <section id="practiceProblems" class="info-section"></section>
+            </div>
+        </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
-
 </html>
+
