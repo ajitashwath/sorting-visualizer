@@ -1131,14 +1131,28 @@ function createBars() {
 function updateBars() {
     const bars = document.querySelectorAll('.bar');
     const labels = document.querySelectorAll('.bar-label');
+    const containerWidth = barContainer.clientWidth;
     const containerHeight = barContainer.clientHeight - 20;
     const maxValue = Math.max(...array);
-    array.forEach((value, index) => {
-        const height = (value / maxValue) * containerHeight;
-        bars[index].style.height = `${height}px`;
-        labels[index].textContent = value;
+    const barWidth = containerWidth / array.length;
+
+    bars.forEach((bar, index) => {
+        const height = (array[index] / maxValue) * containerHeight;
+        bar.style.height = `${height}px`;
+        bar.style.width = `${barWidth}px`;
+        bar.style.left = `${index * barWidth}px`;
+        labels[index].textContent = array[index];
     });
 }
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        if (!sorting) {
+            createBars();
+        }
+    }, 250);
+});
 
 function generateRandomArray() {
     const size = Math.floor(Math.random() * 20) + 10;
@@ -1155,25 +1169,31 @@ function resetStats() {
     updateStats();
 }
 
-function updateStats() {
+function updateStats(newComparisons = comparisons, newSwaps = swaps) {
+    comparisons = newComparisons;
+    swaps = newSwaps;
     comparisonsSpan.textContent = comparisons;
     swapsSpan.textContent = swaps;
-    const elapsedTime = (Date.now() - startTime) / 1000;
+    const elapsedTime = sorting ? (Date.now() - startTime) / 1000 : 0;
     timeSpan.textContent = elapsedTime.toFixed(2);
 }
 
 async function startSort() {
     if (sorting || !currentAlgorithm) return;
     sorting = true;
+    paused = false;
+    pauseBtn.textContent = 'Pause';
     sortBtn.disabled = true;
     pauseBtn.disabled = false;
     resetBtn.disabled = true;
     resetStats();
     await currentAlgorithm.sort();
     sorting = false;
+    paused = false;
     sortBtn.disabled = false;
     pauseBtn.disabled = true;
     resetBtn.disabled = false;
+    updateStats(); 
 }
 
 function togglePause() {
@@ -1334,16 +1354,6 @@ function populateAlgorithmList() {
         algorithmList.appendChild(button);
     }
 }
-
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        if (!sorting) {
-            createBars();
-        }
-    }, 250);
-});
 
 populateAlgorithmList();
 generateRandomArray();
