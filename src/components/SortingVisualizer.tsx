@@ -102,7 +102,6 @@ const SortingVisualizer: React.FC = () => {
     setIsSorting(true);
     setIsPaused(false);
     const sortFunction = algorithms[selectedAlgorithm as AlgorithmKey];
-    const sortFunction = algorithms[selectedAlgorithm];
     
     if (!sortFunction) {
       console.error("Sort function not found");
@@ -159,7 +158,7 @@ const SortingVisualizer: React.FC = () => {
                 id="algorithm"
                 className="bg-dark-600 text-white border border-dark-500 rounded-md px-3 py-2 w-full md:w-60"
                 value={selectedAlgorithm}
-                onChange={(e) => setSelectedAlgorithm(e.target.value)}
+                onChange={(e) => setSelectedAlgorithm(e.target.value as AlgorithmKey)}
                 disabled={isSorting && !isPaused}
               >
                 <option value="bubbleSort">Bubble Sort</option>
@@ -282,19 +281,15 @@ const SortingVisualizer: React.FC = () => {
         <div className="relative h-64 bg-dark-800 rounded-md border border-dark-600 overflow-hidden">
           <div className="absolute inset-0 flex items-end justify-center p-1">
             {array.map((value, idx) => (
-                {/* <span className="absolute -top-6 text-xs text-white/70 font-mono">
-                  {value}
-                </span> */}
-                </span>
-                <div
-                  className="array-bar mx-[1px]"
-                  style={{
-                    height: `${Math.max(5, (value / 500) * 100)}%`,
-                    width: `${100 / arraySize}%`,
-                    maxWidth: '20px',
-                  }}
-                ></div>
-              </div>
+              <div
+                key={idx}
+                className="array-bar mx-[1px]"
+                style={{
+                  height: `${Math.max(5, (value / 500) * 100)}%`,
+                  width: `${100 / arraySize}%`,
+                  maxWidth: '20px',
+                }}
+              ></div>
             ))}
           </div>
         </div>
