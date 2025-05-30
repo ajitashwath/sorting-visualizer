@@ -1,0 +1,56 @@
+---
+import CodeTabs from './CodeTabs.astro';
+
+interface TimeComplexity {
+  best: string;
+  average: string;
+  worst: string;
+}
+
+interface Props {
+  name: string;
+  timeComplexity: TimeComplexity;
+  spaceComplexity: string;
+}
+
+const { name, timeComplexity, spaceComplexity } = Astro.props;
+
+// Generate slugified name for ID
+const slug = name.toLowerCase().replace(/\s+/g, '-');
+
+// Get algorithm descriptions
+const descriptions = {
+  'bubble-sort': 'Repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.',
+  'insertion-sort': 'Builds the sorted array one item at a time by comparing each new element with the already-sorted elements.',
+  'selection-sort': 'Divides the input list into two parts: a sorted sublist and an unsorted sublist, repeatedly selecting the smallest element.',
+  'merge-sort': 'Divides the array into halves, sorts them recursively, then merges the sorted halves.',
+  'quick-sort': 'Selects a pivot element and partitions the array around the pivot, recursively sorting the sub-arrays.',
+  'heap-sort': 'Builds a max heap and repeatedly extracts the maximum element, placing it at the end of the array.',
+  'counting-sort': 'Counts the number of objects having distinct key values, then calculates positions of each object in the output sequence.',
+  'radix-sort': 'Processes digits from least significant to most significant, using a stable sort for each digit position.'
+};
+---
+
+<div id={slug} class="bg-dark-700 rounded-lg overflow-hidden border border-dark-600 transition-all duration-300 hover:border-primary-700 hover:shadow-lg hover:shadow-primary-900/20">
+  <div class="p-6">
+    <h3 class="text-xl font-bold text-primary-300 mb-3">{name}</h3>
+    <p class="text-white/70 mb-4">{descriptions[slug]}</p>
+    
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div>
+        <h4 class="text-sm font-semibold text-white/50 mb-1">Time Complexity</h4>
+        <ul class="space-y-1 text-sm">
+          <li><span class="text-white/40">Best:</span> <span class="font-mono text-primary-300">{timeComplexity.best}</span></li>
+          <li><span class="text-white/40">Average:</span> <span class="font-mono text-primary-300">{timeComplexity.average}</span></li>
+          <li><span class="text-white/40">Worst:</span> <span class="font-mono text-primary-300">{timeComplexity.worst}</span></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold text-white/50 mb-1">Space Complexity</h4>
+        <p class="font-mono text-primary-300">{spaceComplexity}</p>
+      </div>
+    </div>
+    
+    <CodeTabs algorithm={slug} />
+  </div>
+</div>

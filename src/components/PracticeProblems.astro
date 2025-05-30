@@ -1,0 +1,140 @@
+---
+// Define practice problems for each algorithm
+const problems = {
+  'bubble-sort': [
+    { name: 'Sort Colors', difficulty: 'Medium', platform: 'LeetCode', url: 'https://leetcode.com/problems/sort-colors/' },
+    { name: 'Sort Array By Parity', difficulty: 'Easy', platform: 'LeetCode', url: 'https://leetcode.com/problems/sort-array-by-parity/' }
+  ],
+  'insertion-sort': [
+    { name: 'Insertion Sort List', difficulty: 'Medium', platform: 'LeetCode', url: 'https://leetcode.com/problems/insertion-sort-list/' },
+    { name: 'Insertion Sort for Singly Linked Lists', difficulty: 'Medium', platform: 'GeeksforGeeks', url: 'https://practice.geeksforgeeks.org/problems/insertion-sort-for-singly-linked-list/1' }
+  ],
+  'selection-sort': [
+    { name: 'Sort an Array', difficulty: 'Medium', platform: 'LeetCode', url: 'https://leetcode.com/problems/sort-an-array/' },
+    { name: 'Selection Sort', difficulty: 'Easy', platform: 'GeeksforGeeks', url: 'https://practice.geeksforgeeks.org/problems/selection-sort/1' }
+  ],
+  'merge-sort': [
+    { name: 'Sort List', difficulty: 'Medium', platform: 'LeetCode', url: 'https://leetcode.com/problems/sort-list/' },
+    { name: 'Count of Smaller Numbers After Self', difficulty: 'Hard', platform: 'LeetCode', url: 'https://leetcode.com/problems/count-of-smaller-numbers-after-self/' },
+    { name: 'Merge Sort', difficulty: 'Medium', platform: 'Codeforces', url: 'https://codeforces.com/contest/873/problem/D' }
+  ],
+  'quick-sort': [
+    { name: 'Kth Largest Element in an Array', difficulty: 'Medium', platform: 'LeetCode', url: 'https://leetcode.com/problems/kth-largest-element-in-an-array/' },
+    { name: 'Sort an Array', difficulty: 'Medium', platform: 'LeetCode', url: 'https://leetcode.com/problems/sort-an-array/' },
+    { name: 'Quick Sort', difficulty: 'Medium', platform: 'GeeksforGeeks', url: 'https://practice.geeksforgeeks.org/problems/quick-sort/1' }
+  ],
+  'heap-sort': [
+    { name: 'Top K Frequent Elements', difficulty: 'Medium', platform: 'LeetCode', url: 'https://leetcode.com/problems/top-k-frequent-elements/' },
+    { name: 'K Closest Points to Origin', difficulty: 'Medium', platform: 'LeetCode', url: 'https://leetcode.com/problems/k-closest-points-to-origin/' },
+    { name: 'Sort a Nearly Sorted Array', difficulty: 'Medium', platform: 'GeeksforGeeks', url: 'https://practice.geeksforgeeks.org/problems/nearly-sorted-1587115620/1' }
+  ],
+  'counting-sort': [
+    { name: 'Sort Characters By Frequency', difficulty: 'Medium', platform: 'LeetCode', url: 'https://leetcode.com/problems/sort-characters-by-frequency/' },
+    { name: 'Sort Array by Increasing Frequency', difficulty: 'Easy', platform: 'LeetCode', url: 'https://leetcode.com/problems/sort-array-by-increasing-frequency/' },
+    { name: 'Count Sort', difficulty: 'Easy', platform: 'GeeksforGeeks', url: 'https://practice.geeksforgeeks.org/problems/counting-sort/1' }
+  ],
+  'radix-sort': [
+    { name: 'Maximum Gap', difficulty: 'Hard', platform: 'LeetCode', url: 'https://leetcode.com/problems/maximum-gap/' },
+    { name: 'Sort Array of Strings', difficulty: 'Medium', platform: 'GeeksforGeeks', url: 'https://practice.geeksforgeeks.org/problems/sorting-an-array-of-strings-lexicographically/1' }
+  ]
+};
+
+// Flatten all problems into a single array
+const allProblems = Object.values(problems).flat();
+
+// Group problems by difficulty
+const easyProblems = allProblems.filter(p => p.difficulty === 'Easy');
+const mediumProblems = allProblems.filter(p => p.difficulty === 'Medium');
+const hardProblems = allProblems.filter(p => p.difficulty === 'Hard');
+
+// Define difficulty badge colors
+const difficultyColors = {
+  'Easy': 'bg-green-600/30 text-green-400',
+  'Medium': 'bg-yellow-600/30 text-yellow-400',
+  'Hard': 'bg-red-600/30 text-red-400'
+};
+
+// Define platform badge colors
+const platformColors = {
+  'LeetCode': 'bg-primary-600/30 text-primary-400',
+  'Codeforces': 'bg-blue-600/30 text-blue-400',
+  'GeeksforGeeks': 'bg-purple-600/30 text-purple-400'
+};
+---
+
+<div class="grid gap-8 md:grid-cols-3">
+  <div>
+    <h3 class="text-xl font-bold text-green-400 mb-4">Easy</h3>
+    <div class="bg-dark-700 rounded-lg border border-dark-600 overflow-hidden">
+      <ul class="divide-y divide-dark-600">
+        {easyProblems.map(problem => (
+          <li class="p-4 hover:bg-dark-600/50 transition-colors">
+            <a href={problem.url} target="_blank" rel="noopener noreferrer" class="block">
+              <div class="flex justify-between items-start">
+                <span class="font-medium text-white">{problem.name}</span>
+                <span class={`ml-2 px-2 py-0.5 rounded-full text-xs ${difficultyColors[problem.difficulty]}`}>
+                  {problem.difficulty}
+                </span>
+              </div>
+              <div class="mt-2">
+                <span class={`px-2 py-0.5 rounded-full text-xs ${platformColors[problem.platform]}`}>
+                  {problem.platform}
+                </span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  
+  <div>
+    <h3 class="text-xl font-bold text-yellow-400 mb-4">Medium</h3>
+    <div class="bg-dark-700 rounded-lg border border-dark-600 overflow-hidden">
+      <ul class="divide-y divide-dark-600">
+        {mediumProblems.map(problem => (
+          <li class="p-4 hover:bg-dark-600/50 transition-colors">
+            <a href={problem.url} target="_blank" rel="noopener noreferrer" class="block">
+              <div class="flex justify-between items-start">
+                <span class="font-medium text-white">{problem.name}</span>
+                <span class={`ml-2 px-2 py-0.5 rounded-full text-xs ${difficultyColors[problem.difficulty]}`}>
+                  {problem.difficulty}
+                </span>
+              </div>
+              <div class="mt-2">
+                <span class={`px-2 py-0.5 rounded-full text-xs ${platformColors[problem.platform]}`}>
+                  {problem.platform}
+                </span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  
+  <div>
+    <h3 class="text-xl font-bold text-red-400 mb-4">Hard</h3>
+    <div class="bg-dark-700 rounded-lg border border-dark-600 overflow-hidden">
+      <ul class="divide-y divide-dark-600">
+        {hardProblems.map(problem => (
+          <li class="p-4 hover:bg-dark-600/50 transition-colors">
+            <a href={problem.url} target="_blank" rel="noopener noreferrer" class="block">
+              <div class="flex justify-between items-start">
+                <span class="font-medium text-white">{problem.name}</span>
+                <span class={`ml-2 px-2 py-0.5 rounded-full text-xs ${difficultyColors[problem.difficulty]}`}>
+                  {problem.difficulty}
+                </span>
+              </div>
+              <div class="mt-2">
+                <span class={`px-2 py-0.5 rounded-full text-xs ${platformColors[problem.platform]}`}>
+                  {problem.platform}
+                </span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>

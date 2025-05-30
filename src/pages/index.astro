@@ -1,0 +1,65 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Hero from '@components/Hero.astro';
+import SortingVisualizer from '@components/SortingVisualizer';
+import AlgorithmSection from '@components/AlgorithmSection.astro';
+import PracticeProblems from '@components/PracticeProblems.astro';
+---
+
+<Layout title="Sorting Visualizer">
+  <Hero />
+  <div class="container mx-auto px-4 py-8">
+    <SortingVisualizer client:load />
+    
+    <section id="algorithms" class="mt-16">
+      <h2 class="text-3xl font-bold text-primary-400 mb-8">Algorithms</h2>
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <AlgorithmSection 
+          name="Bubble Sort" 
+          timeComplexity={{ best: "O(n)", average: "O(n²)", worst: "O(n²)" }}
+          spaceComplexity="O(1)" 
+        />
+        <AlgorithmSection 
+          name="Insertion Sort" 
+          timeComplexity={{ best: "O(n)", average: "O(n²)", worst: "O(n²)" }}
+          spaceComplexity="O(1)" 
+        />
+        <AlgorithmSection 
+          name="Selection Sort" 
+          timeComplexity={{ best: "O(n²)", average: "O(n²)", worst: "O(n²)" }}
+          spaceComplexity="O(1)" 
+        />
+        <AlgorithmSection 
+          name="Merge Sort" 
+          timeComplexity={{ best: "O(n log n)", average: "O(n log n)", worst: "O(n log n)" }}
+          spaceComplexity="O(n)" 
+        />
+        <AlgorithmSection 
+          name="Quick Sort" 
+          timeComplexity={{ best: "O(n log n)", average: "O(n log n)", worst: "O(n²)" }}
+          spaceComplexity="O(log n)" 
+        />
+        <AlgorithmSection 
+          name="Heap Sort" 
+          timeComplexity={{ best: "O(n log n)", average: "O(n log n)", worst: "O(n log n)" }}
+          spaceComplexity="O(1)" 
+        />
+        <AlgorithmSection 
+          name="Counting Sort" 
+          timeComplexity={{ best: "O(n+k)", average: "O(n+k)", worst: "O(n+k)" }}
+          spaceComplexity="O(k)" 
+        />
+        <AlgorithmSection 
+          name="Radix Sort" 
+          timeComplexity={{ best: "O(nk)", average: "O(nk)", worst: "O(nk)" }}
+          spaceComplexity="O(n+k)" 
+        />
+      </div>
+    </section>
+    
+    <section id="practice" class="mt-16 mb-16">
+      <h2 class="text-3xl font-bold text-primary-400 mb-8">Practice Problems</h2>
+      <PracticeProblems />
+    </section>
+  </div>
+</Layout>

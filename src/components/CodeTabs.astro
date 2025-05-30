@@ -1,0 +1,611 @@
+---
+interface Props {
+  algorithm: string;
+}
+
+const { algorithm } = Astro.props;
+
+// Function to get algorithm implementations
+function getCode(algo: string, language: string) {
+  const codes = {
+    'bubble-sort': {
+      python: `def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        swapped = False
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+                swapped = True
+        if not swapped:
+            break
+    return arr`,
+      cpp: `void bubbleSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n; i++) {
+        bool swapped = false;
+        for (int j = 0; j < n-i-1; j++) {
+            if (arr[j] > arr[j+1]) {
+                swap(arr[j], arr[j+1]);
+                swapped = true;
+            }
+        }
+        if (!swapped) break;
+    }
+}`,
+      java: `void bubbleSort(int[] arr) {
+    int n = arr.length;
+    for (int i = 0; i < n; i++) {
+        boolean swapped = false;
+        for (int j = 0; j < n-i-1; j++) {
+            if (arr[j] > arr[j+1]) {
+                int temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+                swapped = true;
+            }
+        }
+        if (!swapped) break;
+    }
+}`
+    },
+    'insertion-sort': {
+      python: `def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
+    return arr`,
+      cpp: `void insertionSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j+1] = arr[j];
+            j--;
+        }
+        arr[j+1] = key;
+    }
+}`,
+      java: `void insertionSort(int[] arr) {
+    int n = arr.length;
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j+1] = arr[j];
+            j--;
+        }
+        arr[j+1] = key;
+    }
+}`
+    },
+    'selection-sort': {
+      python: `def selection_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        min_idx = i
+        for j in range(i+1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr`,
+      cpp: `void selectionSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n; i++) {
+        int min_idx = i;
+        for (int j = i+1; j < n; j++) {
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j;
+            }
+        }
+        swap(arr[i], arr[min_idx]);
+    }
+}`,
+      java: `void selectionSort(int[] arr) {
+    int n = arr.length;
+    for (int i = 0; i < n; i++) {
+        int min_idx = i;
+        for (int j = i+1; j < n; j++) {
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j;
+            }
+        }
+        int temp = arr[i];
+        arr[i] = arr[min_idx];
+        arr[min_idx] = temp;
+    }
+}`
+    },
+    'merge-sort': {
+      python: `def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+        
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    
+    return merge(left, right)
+    
+def merge(left, right):
+    result = []
+    i = j = 0
+    
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+            
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result`,
+      cpp: `void merge(vector<int>& arr, int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    
+    vector<int> L(n1), R(n2);
+    
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+        
+    int i = 0, j = 0, k = l;
+    
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(vector<int>& arr, int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;
+        
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        
+        merge(arr, l, m, r);
+    }
+}`,
+      java: `void merge(int[] arr, int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    
+    int[] L = new int[n1];
+    int[] R = new int[n2];
+    
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+        
+    int i = 0, j = 0, k = l;
+    
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int[] arr, int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;
+        
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        
+        merge(arr, l, m, r);
+    }
+}`
+    },
+    'quick-sort': {
+      python: `def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    
+    return quick_sort(left) + middle + quick_sort(right)`,
+      cpp: `int partition(vector<int>& arr, int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+    
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    
+    swap(arr[i + 1], arr[high]);
+    return i + 1;
+}
+
+void quickSort(vector<int>& arr, int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}`,
+      java: `int partition(int[] arr, int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+    
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+    
+    int temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+    
+    return i + 1;
+}
+
+void quickSort(int[] arr, int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}`
+    },
+    'heap-sort': {
+      python: `def heapify(arr, n, i):
+    largest = i
+    left = 2 * i + 1
+    right = 2 * i + 2
+    
+    if left < n and arr[left] > arr[largest]:
+        largest = left
+        
+    if right < n and arr[right] > arr[largest]:
+        largest = right
+        
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+        
+def heap_sort(arr):
+    n = len(arr)
+    
+    # Build max heap
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+        
+    # Extract elements one by one
+    for i in range(n - 1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i]
+        heapify(arr, i, 0)
+        
+    return arr`,
+      cpp: `void heapify(vector<int>& arr, int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+        
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+        
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+        heapify(arr, n, largest);
+    }
+}
+
+void heapSort(vector<int>& arr) {
+    int n = arr.size();
+    
+    // Build heap
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+        
+    // Extract elements from heap
+    for (int i = n - 1; i > 0; i--) {
+        swap(arr[0], arr[i]);
+        heapify(arr, i, 0);
+    }
+}`,
+      java: `void heapify(int[] arr, int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+        
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+        
+    if (largest != i) {
+        int swap = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = swap;
+        heapify(arr, n, largest);
+    }
+}
+
+void heapSort(int[] arr) {
+    int n = arr.length;
+    
+    // Build heap
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+        
+    // Extract elements from heap
+    for (int i = n - 1; i > 0; i--) {
+        int temp = arr[0];
+        arr[0] = arr[i];
+        arr[i] = temp;
+        heapify(arr, i, 0);
+    }
+}`
+    },
+    'counting-sort': {
+      python: `def counting_sort(arr):
+    max_val = max(arr)
+    m = max_val + 1
+    count = [0] * m
+    
+    for a in arr:
+        count[a] += 1
+        
+    i = 0
+    for a in range(m):
+        for c in range(count[a]):
+            arr[i] = a
+            i += 1
+            
+    return arr`,
+      cpp: `void countingSort(vector<int>& arr) {
+    int max = *max_element(arr.begin(), arr.end());
+    int min = *min_element(arr.begin(), arr.end());
+    int range = max - min + 1;
+    
+    vector<int> count(range), output(arr.size());
+    
+    for (int i = 0; i < arr.size(); i++)
+        count[arr[i] - min]++;
+        
+    for (int i = 1; i < count.size(); i++)
+        count[i] += count[i - 1];
+        
+    for (int i = arr.size() - 1; i >= 0; i--) {
+        output[count[arr[i] - min] - 1] = arr[i];
+        count[arr[i] - min]--;
+    }
+    
+    for (int i = 0; i < arr.size(); i++)
+        arr[i] = output[i];
+}`,
+      java: `void countingSort(int[] arr) {
+    int max = Arrays.stream(arr).max().getAsInt();
+    int min = Arrays.stream(arr).min().getAsInt();
+    int range = max - min + 1;
+    
+    int[] count = new int[range];
+    int[] output = new int[arr.length];
+    
+    for (int i = 0; i < arr.length; i++)
+        count[arr[i] - min]++;
+        
+    for (int i = 1; i < count.length; i++)
+        count[i] += count[i - 1];
+        
+    for (int i = arr.length - 1; i >= 0; i--) {
+        output[count[arr[i] - min] - 1] = arr[i];
+        count[arr[i] - min]--;
+    }
+    
+    for (int i = 0; i < arr.length; i++)
+        arr[i] = output[i];
+}`
+    },
+    'radix-sort': {
+      python: `def counting_sort_for_radix(arr, exp):
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10
+    
+    for i in range(n):
+        index = arr[i] // exp
+        count[index % 10] += 1
+        
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+        
+    i = n - 1
+    while i >= 0:
+        index = arr[i] // exp
+        output[count[index % 10] - 1] = arr[i]
+        count[index % 10] -= 1
+        i -= 1
+        
+    for i in range(n):
+        arr[i] = output[i]
+        
+def radix_sort(arr):
+    max_val = max(arr)
+    exp = 1
+    
+    while max_val // exp > 0:
+        counting_sort_for_radix(arr, exp)
+        exp *= 10
+        
+    return arr`,
+      cpp: `void countSort(vector<int>& arr, int exp) {
+    int n = arr.size();
+    vector<int> output(n);
+    vector<int> count(10, 0);
+    
+    for (int i = 0; i < n; i++)
+        count[(arr[i] / exp) % 10]++;
+        
+    for (int i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+        
+    for (int i = n - 1; i >= 0; i--) {
+        output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+        count[(arr[i] / exp) % 10]--;
+    }
+    
+    for (int i = 0; i < n; i++)
+        arr[i] = output[i];
+}
+
+void radixSort(vector<int>& arr) {
+    int max = *max_element(arr.begin(), arr.end());
+    
+    for (int exp = 1; max / exp > 0; exp *= 10)
+        countSort(arr, exp);
+}`,
+      java: `void countSort(int[] arr, int exp) {
+    int n = arr.length;
+    int[] output = new int[n];
+    int[] count = new int[10];
+    
+    for (int i = 0; i < n; i++)
+        count[(arr[i] / exp) % 10]++;
+        
+    for (int i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+        
+    for (int i = n - 1; i >= 0; i--) {
+        output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+        count[(arr[i] / exp) % 10]--;
+    }
+    
+    for (int i = 0; i < n; i++)
+        arr[i] = output[i];
+}
+
+void radixSort(int[] arr) {
+    int max = Arrays.stream(arr).max().getAsInt();
+    
+    for (int exp = 1; max / exp > 0; exp *= 10)
+        countSort(arr, exp);
+}`
+    }
+  };
+  
+  return codes[algo][language];
+}
+---
+
+<div class="mt-4">
+  <div class="flex border-b border-dark-500">
+    <button class="px-4 py-2 text-sm font-medium text-white/70 hover:text-primary-400 border-b-2 border-primary-500" data-tab="python">
+      Python
+    </button>
+    <button class="px-4 py-2 text-sm font-medium text-white/70 hover:text-primary-400 border-b-2 border-transparent" data-tab="cpp">
+      C++
+    </button>
+    <button class="px-4 py-2 text-sm font-medium text-white/70 hover:text-primary-400 border-b-2 border-transparent" data-tab="java">
+      Java
+    </button>
+  </div>
+  
+  <div class="mt-4">
+    <div data-content="python" class="block">
+      <pre class="code-block"><code class="language-python">{getCode(algorithm, 'python')}</code></pre>
+    </div>
+    <div data-content="cpp" class="hidden">
+      <pre class="code-block"><code class="language-cpp">{getCode(algorithm, 'cpp')}</code></pre>
+    </div>
+    <div data-content="java" class="hidden">
+      <pre class="code-block"><code class="language-java">{getCode(algorithm, 'java')}</code></pre>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('[data-tab]');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabContainer = tab.closest('div');
+        const contentContainer = tabContainer.nextElementSibling;
+        const tabName = tab.getAttribute('data-tab');
+        
+        // Update active tab styling
+        tabContainer.querySelectorAll('[data-tab]').forEach(t => {
+          t.classList.remove('border-primary-500');
+          t.classList.add('border-transparent');
+        });
+        tab.classList.remove('border-transparent');
+        tab.classList.add('border-primary-500');
+        
+        // Show selected content, hide others
+        contentContainer.querySelectorAll('[data-content]').forEach(content => {
+          if (content.getAttribute('data-content') === tabName) {
+            content.classList.remove('hidden');
+            content.classList.add('block');
+          } else {
+            content.classList.remove('block');
+            content.classList.add('hidden');
+          }
+        });
+      });
+    });
+  });
+</script>
