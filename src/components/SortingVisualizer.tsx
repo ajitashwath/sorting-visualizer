@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, RotateCcw, Zap, ZapOff } from 'lucide-react';
+import { Play, Pause, RotateCcw } from 'lucide-react';
 import { getAlgorithms } from '@algorithms/index';
 
 const DEFAULT_ARRAY_SIZE = 50;
@@ -20,7 +20,8 @@ const SortingVisualizer: React.FC = () => {
   const [array, setArray] = useState<number[]>([]);
   const [arraySize, setArraySize] = useState(DEFAULT_ARRAY_SIZE);
   const [speed, setSpeed] = useState(DEFAULT_SPEED);
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState('bubbleSort');
+  type AlgorithmKey = keyof typeof algorithms;
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<AlgorithmKey>('bubbleSort');
   const [isSorting, setIsSorting] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [metrics, setMetrics] = useState<Metrics>({
@@ -100,7 +101,7 @@ const SortingVisualizer: React.FC = () => {
     
     setIsSorting(true);
     setIsPaused(false);
-    
+    const sortFunction = algorithms[selectedAlgorithm as AlgorithmKey];
     const sortFunction = algorithms[selectedAlgorithm];
     
     if (!sortFunction) {
@@ -281,9 +282,9 @@ const SortingVisualizer: React.FC = () => {
         <div className="relative h-64 bg-dark-800 rounded-md border border-dark-600 overflow-hidden">
           <div className="absolute inset-0 flex items-end justify-center p-1">
             {array.map((value, idx) => (
-              <div key={idx} className="relative flex flex-col items-center">
-                <span className="absolute -top-6 text-xs text-white/70 font-mono">
+                {/* <span className="absolute -top-6 text-xs text-white/70 font-mono">
                   {value}
+                </span> */}
                 </span>
                 <div
                   className="array-bar mx-[1px]"
