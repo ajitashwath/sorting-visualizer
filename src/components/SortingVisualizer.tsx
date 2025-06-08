@@ -119,12 +119,20 @@ const SortingVisualizer: React.FC = () => {
         elapsedTime: prev.startTime ? Date.now() - prev.startTime : 0
       }));
     };
+
+    // Helper to pause execution if isPaused is true
+    const waitIfPaused = async () => {
+      while (isPaused) {
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+    };
     
     // Run sorting algorithm
     algorithmRef.current = sortFunction(
       [...array],
       animationSpeedMs,
-      (newArray: number[], comparison: number, swap: number) => {
+      async (newArray: number[], comparison: number, swap: number) => {
+        await waitIfPaused();
         setArray([...newArray]);
         updateMetrics(comparison, swap);
       },
